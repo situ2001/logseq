@@ -11,7 +11,8 @@
             [frontend.components.settings :as settings]
             [frontend.rum :refer [use-mounted]]
             [frontend.storage :as storage]
-            [rum.core :as rum]))
+            [rum.core :as rum]
+            [frontend.mobile.util :as mobile-util]))
 
 (rum/defc container
   [{:keys [route theme on-click current-repo nfs-granted? db-restoring?
@@ -84,7 +85,7 @@
      [db-restoring?])
 
     (rum/use-effect!
-     #(when system-theme?
+     #(when (and system-theme? (not (mobile-util/native-android?)))
         (ui/setup-system-theme-effect!))
      [system-theme?])
 
